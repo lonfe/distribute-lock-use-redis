@@ -2,19 +2,36 @@ package com.yyy;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 import redis.clients.jedis.Jedis;
 
-import java.util.UUID;
+import java.util.*;
 
+@RunWith(Parameterized.class)
 public class Main {
 
-    String host = "localhost";
-    String key = "QUEEN";
-    Jedis jedis = null;
+    private String host;
+    private String key;
+    Jedis jedis;
+
+    public Main(String host, String key, Jedis jedis) {
+        this.host = host;
+        this.key = key;
+        this.jedis = jedis;
+    }
 
     @Before
     public void prepare() {
+        System.out.println("...prepare...");
         jedis = new Jedis(host);
+    }
+
+    @Parameters
+    public static Collection<Object[]> para() {
+        System.out.println("...parameter...");
+        return Arrays.asList(new Object[][] {{"localhost", "QUEEN", null}});
     }
 
     @Test
